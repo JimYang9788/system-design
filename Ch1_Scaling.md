@@ -17,4 +17,18 @@ Collecting loggs are important when a service scales up. Some metrics that shoul
 ### Database Scaling
 
 * Vertical: in 2013, stackoverflow had over 10 million monthly unique visitors, but it only had 1 master databse.
-* Horizontal Scaling: adds more servers alone.
+* Horizontal Scaling: adds more servers alone. 
+
+Some common problems that people might have when it comes to sharding:
+* Celebrity Problem: over hitting a popular shard (e.g. John Mayer)
+* Resharding data: a single shard can no longer hold more data due to rapid growth/ rehashing required 
+* Join and de-normalization: join becomes harder when sharding takes place 
+
+### Summary
+* Keep web tier stateless: no sense of session
+* Cache data as much as you can 
+* Support multiple data center 
+* Host static assets in CDN (Content Delivery Network)
+* Scale your data tier by sharding
+* Split tiers into individual services 
+* Monitor using ausomation tools 
