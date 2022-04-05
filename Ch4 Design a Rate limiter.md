@@ -42,6 +42,41 @@ The algorithm divides the timeline into fix-sized time windows and assigne a cou
 
 
 4. Sliding window log 
+The algorithm keeps track of request timestampe. Time stamp data is usually kept in cache, such as Redis; Remove all old outdated timestamps when new data come in. 
+The algorithm will consumes a lot of memoyr because even if a request is rejected, it will still eat the memory away.
 
 5. Sliding window counter 
 
+Mix of fix and sliding window log.
+
+### High level architecture
+* Use a in memory cache for fast access (Redis) is an option. It's an in memory store that offers two commands: INCR and EXPIRE:
+* INCR increases the stored counter by 1 
+* EXPIRE: sets a timeout for the counter. If the timeout expires, the counter is automatically deleted. 
+The flow goes:
+ 
+```
+┌────────────────┐               ┌────────────────┐              ┌────────────────┐
+│                │               │                │              │                │
+│                │               │                │              │                │
+│    client      ├─────────────► │  Rate Limiter  ├────────────► │    API Server  │
+│                │               │                │              │                │
+│                │               │                │              │                │
+└────────────────┘               └──────┬─────────┘              └────────────────┘
+                                        │   ▲
+                                        │   │
+                                        │   │
+                                        │   │
+                                        │   │
+                                        │   │
+                                        ▼   │
+                                ┌───────────┴──────┐ 
+                                │                  │
+                                │    Redis         │
+                                │                  │
+                                │                  │
+                                └──────────────────┘
+                                
+```
+
+### Deep Dive 
