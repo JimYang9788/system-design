@@ -80,3 +80,6 @@ The flow goes:
 ```
 
 ### Deep Dive 
+* The rate limiter HTTP requests should return: # of requests remaining, # of rate limit, ratelimit limit and 429 error status code.
+* For concurrent execution, using a redis set + lua script is a good way to handle race condition. 
+* Use a centralized Redis storage can solve the problem of 
