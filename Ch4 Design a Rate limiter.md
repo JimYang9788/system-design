@@ -28,9 +28,20 @@ Implementation:
 
 Common Algorithms:
 1. Token Bucket (Amazon, Stripe)
-A preset amount of token is put into a user's bucket. Each request consumes a token, we check if there are enough tokens in the bucket. If not, then the request is dropped. The refill is about 4 per 1 minute, (for example)
+A preset amount of token is put into a user's bucket. Each request consumes a token, we check if there are enough tokens in the bucket. If not, then the request is dropped. The refill is about 4 per 1 minute, (for example). Problems with token bucket is its tuning the parameters.
+
 2. Leaking Bucket 
+When a request arrives, the system checks if the queue (bucket) is full. If it is not full, the rewuest is dropped. Requests are pulled from the queue and processed at regular intervals. 
+
+Problem is that the queue might be stuffed with old requests. 
+
 3. Fixed window counter
+The algorithm divides the timeline into fix-sized time windows and assigne a counter for each window. Each request increments the counter by one. Once the counter reaches the pre-defined threshold, new requests are dropped until a new time window starts. 
+
+* Problem is that, say you limit 5 requests for 1 minute. However, if 5 comes in between 1:30 to 2:00, and 5 come in 2:00 to 2:30, then from 1:30 to 2:30. There's a shit ton requests that you need to work through. (Much more than 5 per minute designed)
+
+
 4. Sliding window log 
+
 5. Sliding window counter 
 
