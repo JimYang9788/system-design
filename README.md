@@ -1,3 +1,3 @@
 # system-design
 
-Notes from system design preparations
+Notes from system design readings
